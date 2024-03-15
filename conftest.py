@@ -49,13 +49,14 @@ def browser(request):
         }
                                         )
         driver = webdriver.Chrome()
-        if maximize:
-            driver.maximize_window()
     elif browser_name == "Firefox":
         options = FirefoxOptions()
         driver = webdriver.Firefox()
     else:
         raise ValueError(f"Driver {browser_name} not supported")
+
+    if maximize:
+        driver.maximize_window()
 
     driver.logger = logger
 
