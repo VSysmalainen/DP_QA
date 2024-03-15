@@ -32,3 +32,16 @@ class BasePage:
     def click(self, locator):
         self.logger.info("%s: Clicking element^ %s" % (self.class_name, str(locator)))
         self.wait.until(EC.element_to_be_clickable(locator)).click()
+
+    def switch(self):
+        self.logger.info("%s: Switch to new window" % self.class_name)
+        self.driver.switch_to.window(self.driver.window_handles[1])
+
+    def input_and_submit(self, locator, value):
+        self.logger.info("%s: Input %s in input %s" % (self.class_name, value, locator))
+        find_field = self.wait.until(EC.presence_of_element_located(locator))
+        find_field.click()
+        find_field.clear()
+        find_field.send_keys(value)
+        find_field.send_keys(Keys.ENTER)
+
