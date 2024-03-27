@@ -18,11 +18,18 @@ def browser(request):
     maximize = request.config.getoption("--maximize")
     log_level = request.config.getoption("--log_level")
 
+    print('START 1')
+
+
     current_time = str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
     files_dir = os.path.dirname(__file__) + '\\files'
 
     logger = logging.getLogger(request.node.name)
+
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
     file_handler = logging.FileHandler(f"logs\\{request.node.name}_log_{current_time}.log")
+
     file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(message)s'))
     logger.addHandler(file_handler)
     logger.setLevel(level=log_level)
@@ -62,11 +69,13 @@ def browser(request):
 
     logger.info("Browser %s started" % browser_name)
 
+    print('STOP 1')
+
     def fin():
         driver.quit()
         logger.info("===> Test %s finished at %s" % (request.node.name, datetime.datetime.now()))
 
+
     request.addfinalizer(fin)
     return driver
-
 
