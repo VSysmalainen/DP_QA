@@ -45,3 +45,6 @@ class BasePage:
         find_field.send_keys(value)
         find_field.send_keys(Keys.ENTER)
 
+    def is_present(self, locator):
+        self.logger.info("%s: Check if element %s is present" % (self.class_name, str(locator)))
+        return self.wait.until(EC.visibility_of_element_located(locator))
